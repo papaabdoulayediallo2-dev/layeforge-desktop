@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LayeForge - Transformez vos fichiers HTML/CSS/JS en application desktop Electron sans coder" />
+  <title>LayeForge — Créez votre app desktop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Titlebar personnalisé -->
+  <div class="titlebar" id="titlebar">
+    <div class="titlebar-left">
+      <div class="app-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="url(#bolt-gradient)" stroke="none"/>
+          <defs>
+            <linearGradient id="bolt-gradient" x1="3" y1="2" x2="21" y2="22">
+              <stop offset="0%" stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#06b6d4"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="app-title">LayeForge</span>
+      <span class="app-badge">v1.0</span>
+    </div>
+    <div class="titlebar-controls">
+      <button class="ctrl-btn minimize" id="btn-minimize" title="Réduire">
+        <svg width="12" height="12" viewBox="0 0 12 12"><rect x="2" y="5.5" width="8" height="1" fill="currentColor"/></svg>
+      </button>
+      <button class="ctrl-btn maximize" id="btn-maximize" title="Maximiser">
+        <svg width="12" height="12" viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" fill="none" stroke="currentColor" stroke-width="1"/></svg>
+      </button>
+      <button class="ctrl-btn close" id="btn-close" title="Fermer">
+        <svg width="12" height="12" viewBox="0 0 12 12">
+          <line x1="2" y1="2" x2="10" y2="10" stroke="currentColor" stroke-width="1.5"/>
+          <line x1="10" y1="2" x2="2" y2="10" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Layout principal -->
+  <div class="app-layout">
+
+    <!-- Sidebar - Étapes -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <button class="btn-history-global" id="sidebar-btn-history">
+          <i class="fas fa-folder-open"></i> Mes Projets
+        </button>
+        <p class="sidebar-subtitle">Générateur d'application</p>
+      </div>
+
+      <nav class="steps-nav">
+        <div class="step-item active" id="nav-step-1" data-step="1">
+          <div class="step-number">1</div>
+          <div class="step-info">
+            <span class="step-label">Fichiers</span>
+            <span class="step-desc">Importez votre projet web</span>
+          </div>
+          <div class="step-check">
+            <svg width="16" height="16" viewBox="0 0 16 16"><polyline points="3,8 7,12 13,4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <div class="step-item" id="nav-step-2" data-step="2">
+          <div class="step-number">2</div>
+          <div class="step-info">
+            <span class="step-label">Configuration</span>
+            <span class="step-desc">Personnalisez votre app</span>
+          </div>
+          <div class="step-check">
+            <svg width="16" height="16" viewBox="0 0 16 16"><polyline points="3,8 7,12 13,4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <div class="step-item" id="nav-step-3" data-step="3">
+          <div class="step-number">3</div>
+          <div class="step-info">
+            <span class="step-label">Prévisualisation</span>
+            <span class="step-desc">Aperçu de votre app</span>
+          </div>
+          <div class="step-check">
+            <svg width="16" height="16" viewBox="0 0 16 16"><polyline points="3,8 7,12 13,4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+
+        <div class="step-connector"></div>
+
+        <div class="step-item" id="nav-step-4" data-step="4">
+          <div class="step-number">4</div>
+          <div class="step-info">
+            <span class="step-label">Générer</span>
+            <span class="step-desc">Exportez votre application</span>
+          </div>
+          <div class="step-check">
+            <svg width="16" height="16" viewBox="0 0 16 16"><polyline points="3,8 7,12 13,4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="tip-box">
+          <div class="tip-icon"><i class="fas fa-lightbulb" style="color: #fceea7;"></i></div>
+          <p class="tip-text">Glissez-déposez vos fichiers ou un dossier entier directement sur l'application !</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+
+      <!-- ── ÉTAPE 1 : FICHIERS ──────────────────────────────── -->
+      <section class="step-panel active" id="panel-step-1">
+        <div class="panel-header">
+          <h1 class="panel-title">
+            <span class="panel-step-badge">Étape 1</span>
+            Importez votre projet web
+          </h1>
+          <p class="panel-subtitle">Glissez vos fichiers HTML, CSS et JavaScript ici, ou choisissez un dossier complet.</p>
+        </div>
+
+        <!-- Zone drag & drop -->
+        <div class="dropzone" id="dropzone">
+          <div class="dropzone-content">
+            <div class="dropzone-icon">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <rect x="8" y="16" width="48" height="36" rx="4" fill="none" stroke="url(#dz-grad)" stroke-width="2" stroke-dasharray="6 4"/>
+                <path d="M32 28 L32 44 M26 34 L32 28 L38 34" stroke="url(#dz-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="20" y="10" width="24" height="10" rx="2" fill="url(#dz-grad)" opacity="0.3"/>
+                <defs>
+                  <linearGradient id="dz-grad" x1="8" y1="16" x2="56" y2="52">
+                    <stop offset="0%" stop-color="#7c3aed"/>
+                    <stop offset="100%" stop-color="#06b6d4"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <h2 class="dropzone-title">Glissez vos fichiers ici</h2>
+            <p class="dropzone-subtitle">HTML, CSS, JavaScript, images, polices...</p>
+            <div class="dropzone-actions">
+              <button class="btn btn-primary" id="btn-select-files">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Choisir des fichiers
+              </button>
+              <button class="btn btn-secondary" id="btn-select-folder">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                Choisir un dossier
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Liste des fichiers -->
+        <div class="files-section" id="files-section" style="display:none">
+          <div class="files-header">
+            <h3 class="files-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg>
+              Fichiers importés (<span id="files-count">0</span>)
+            </h3>
+            <button class="btn btn-ghost btn-sm" id="btn-clear-files">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+              Tout effacer
+            </button>
+          </div>
+          <div class="files-list" id="files-list"></div>
+
+          <!-- Sélection du fichier d'entrée -->
+          <div class="entry-selector">
+            <label class="form-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+              Fichier HTML principal (point d'entrée)
+            </label>
+            <select class="form-select" id="entry-file-select">
+              <option value="">— Choisir le fichier HTML principal —</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <div></div>
+          <button class="btn btn-primary btn-lg" id="btn-next-1" disabled>
+            Suivant — Configuration
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ── ÉTAPE 2 : CONFIGURATION ─────────────────────────── -->
+      <section class="step-panel" id="panel-step-2">
+        <div class="panel-header">
+          <h1 class="panel-title">
+            <span class="panel-step-badge">Étape 2</span>
+            Configurez votre application
+          </h1>
+          <p class="panel-subtitle">Donnez une identité à votre application desktop.</p>
+        </div>
+
+        <div class="config-grid">
+          <!-- Infos de base -->
+          <div class="config-card">
+            <h3 class="config-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Informations de base
+            </h3>
+            <div class="form-group">
+              <label class="form-label" for="app-name">Nom de l'application *</label>
+              <input type="text" id="app-name" class="form-input" placeholder="Mon Application" maxlength="50" />
+              <span class="form-hint">Ce sera le titre de votre fenêtre desktop</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="app-description">Description (optionnel)</label>
+              <textarea id="app-description" class="form-textarea" placeholder="Une courte description de votre application..." rows="3"></textarea>
+            </div>
+          </div>
+
+          <!-- Fenêtre -->
+          <div class="config-card">
+            <h3 class="config-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="8" x2="22" y2="8"/></svg>
+              Fenêtre
+            </h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="win-width">Largeur (px)</label>
+                <input type="number" id="win-width" class="form-input" value="1200" min="400" max="3840" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="win-height">Hauteur (px)</label>
+                <input type="number" id="win-height" class="form-input" value="800" min="300" max="2160" />
+              </div>
+            </div>
+
+            <div class="toggles-list">
+              <label class="toggle-item">
+                <input type="checkbox" id="opt-resizable" checked class="toggle-input" />
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Fenêtre redimensionnable</span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="opt-fullscreen" class="toggle-input" />
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Démarrer en plein écran</span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="opt-frameless" class="toggle-input" />
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Sans barre de titre (frameless)</span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="opt-show-menu" class="toggle-input" />
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Afficher la barre de menu par défaut (Fichier, Édition...)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Format & Icône -->
+          <div class="config-card config-card-wide">
+            <div class="form-row">
+              <div class="form-group" style="flex: 1;">
+                <label class="form-label">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                  Format d'exportation
+                </label>
+                <div class="toggles-list">
+                  <label class="toggle-item">
+                    <input type="radio" name="export-format" value="portable" checked class="toggle-input" />
+                    <span class="toggle-slider" style="width: 20px; height: 20px; border-radius: 50%;"></span>
+                    <span class="toggle-label">Version Portable (Un seul fichier sans installation)</span>
+                  </label>
+                  <label class="toggle-item">
+                    <input type="radio" name="export-format" value="nsis" class="toggle-input" />
+                    <span class="toggle-slider" style="width: 20px; height: 20px; border-radius: 50%;"></span>
+                    <span class="toggle-label">Version Installable (Setup d'installation classique)</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <h3 class="config-card-title" style="margin-bottom: 8px;">Icône de l'application</h3>
+                <div class="icon-picker">
+                  <div class="icon-preview" id="icon-preview">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  </div>
+                  <div class="icon-actions">
+                    <button class="btn btn-secondary" id="btn-select-icon">
+                      Choisir une icône
+                    </button>
+                    <span class="icon-filename" id="icon-filename"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Apparence & Design -->
+          <div class="config-card config-card-wide">
+            <h3 class="config-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/></svg>
+              Apparence & Design
+            </h3>
+            
+            <div class="design-controls">
+              <label class="toggle-item" style="margin-bottom: 20px;">
+                <input type="checkbox" id="opt-custom-bar" checked class="toggle-input" />
+                <span class="toggle-slider"></span>
+                <span class="toggle-label">Barre de titre personnalisée (Design Moderne)</span>
+              </label>
+
+              <div class="design-grid" id="design-settings">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Couleur de fond (Barre)</label>
+                    <div class="color-picker-container">
+                      <input type="color" id="bar-bg-color" value="#111128" class="color-picker-input" />
+                      <input type="text" id="bar-bg-text" value="#111128" class="form-input color-hex" />
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label">Couleur du texte / icônes</label>
+                    <div class="color-picker-container">
+                      <input type="color" id="bar-text-color" value="#f0f0ff" class="color-picker-input" />
+                      <input type="text" id="bar-text-text" value="#f0f0ff" class="form-input color-hex" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row" style="margin-top: 16px;">
+                  <div class="form-group">
+                    <label class="form-label">Style de la barre</label>
+                    <select id="bar-style" class="form-select">
+                      <option value="solid">Plein (Solide)</option>
+                      <option value="glass">Glassmorphism (Flouté)</option>
+                      <option value="gradient">Dégradé moderne</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Position des boutons</label>
+                    <select id="bar-btn-pos" class="form-select">
+                      <option value="right">À Droite (Windows style)</option>
+                      <option value="left">À Gauche (macOS style)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="toggles-list" style="margin-top: 16px;">
+                  <label class="toggle-item">
+                    <input type="checkbox" id="opt-show-logo" checked class="toggle-input" />
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Afficher le logo/icône de l'app dans la barre</span>
+                  </label>
+                  <label class="toggle-item">
+                    <input type="checkbox" id="opt-splash-screen" checked class="toggle-input" />
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Activer le Splash Screen (Écran de chargement)</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Sécurité & Distribution -->
+          <div class="config-card config-card-wide">
+            <h3 class="config-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              Sécurité & Distribution
+            </h3>
+
+            <div class="form-row">
+              <div class="form-group" style="flex: 1;">
+                <label class="form-label">Protection globale</label>
+                <div class="toggles-list">
+                  <label class="toggle-item">
+                    <input type="checkbox" id="opt-obfuscate" class="toggle-input" />
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Obfusquer le code (Brouillage JS)</span>
+                  </label>
+                  <label class="toggle-item">
+                    <input type="checkbox" id="opt-disable-devtools" checked class="toggle-input" />
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Désactiver DevTools (Bloquer F12 / Inspecter)</span>
+                  </label>
+                  <label class="toggle-item">
+                    <input type="checkbox" id="opt-block-context-menu" class="toggle-input" />
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Bloquer le menu contextuel (Désactiver Clic-droit)</span>
+                  </label>
+                  <label class="toggle-item">
+                    <input type="checkbox" id="opt-notifications" class="toggle-input" />
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Activer les Notifications natives Windows</span>
+                  </label>
+                  <label class="toggle-item">
+                    <input type="checkbox" id="opt-native-dialogs" class="toggle-input" />
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Activer l'accès Système (Dialogues Natifs & Fichiers)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group" style="flex: 1;">
+                <label class="form-label">Association de fichiers (Système)</label>
+                <div class="form-row" style="margin-top: 5px;">
+                  <div class="form-group">
+                    <input type="text" id="file-ext" class="form-input" placeholder="ext (ex: myapp)" />
+                    <span class="form-hint">Extension sans point</span>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" id="file-name" class="form-input" placeholder="Description du fichier" />
+                    <span class="form-hint">ex: Document Pro</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- La Super Centrale des 40 APIs Natives -->
+          <div class="config-card config-card-wide">
+            <h3 class="config-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              APIs & Fonctionnalités Natives (Les Super-Pouvoirs)
+            </h3>
+            <p class="form-hint" style="margin-bottom: 20px;">Sélectionnez uniquement les APIs dont votre code HTML/JS aura besoin. Les permissions nécessaires seront injectées au build.</p>
+
+            <div class="api-columns-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+              
+              <!-- Catégorie 1: Appareil -->
+              <div>
+                <h4 style="color: var(--cyan-2); margin-bottom: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;"><i class="fas fa-microchip"></i> Appareil & OS</h4>
+                <div class="toggles-list compact-toggles">
+                  <label class="toggle-item"><input type="checkbox" id="api-printers" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Impression Silencieuse (Printers)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-os" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Informations Système & CPU (OS)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-power" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Détecteur de Veille (PowerMonitor)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-screen" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Gestion Écrans (Screen)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-theme" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Mode Sombre OS (NativeTheme)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-syspref" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Couleurs Windows (SystemPrefs)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-desktop" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Capture d'Écran (DesktopCapturer)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-clipboard" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Presse-papiers (Clipboard)</span></label>
+                </div>
+              </div>
+
+              <!-- Catégorie 2: Fenêtre & UI -->
+              <div>
+                <h4 style="color: var(--purple-2); margin-bottom: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;"><i class="fas fa-desktop"></i> Fenêtre & UI</h4>
+                <div class="toggles-list compact-toggles">
+                  <label class="toggle-item"><input type="checkbox" id="api-tray" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Icône Barre des Tâches (Tray Menu)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-menu" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Menu Clic-Droit Natif (Menu)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-progressbar" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Barre Progression (ProgressBar)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-badge" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Pastille de Notification (BadgeCount)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-flash" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Faire Clignoter l'app (FlashFrame)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-alwaysontop" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Premier Plan Forcé (AlwaysOnTop)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-transparent" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Clic Au Travers (IgnoreMouseEvents)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-zoom" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Zoom Interface (ZoomFactor)</span></label>
+                </div>
+              </div>
+
+              <!-- Catégorie 3: Système & Accès -->
+              <div>
+                <h4 style="color: var(--success); margin-bottom: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;"><i class="fas fa-shield-alt"></i> Accès OS & Données</h4>
+                <div class="toggles-list compact-toggles">
+                  <label class="toggle-item"><input type="checkbox" id="api-shell" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Ouvrir Dossier/Web externe (Shell)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-autolaunch" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Démarrage Windows (AutoLaunch)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-shortcuts" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Raccourcis Globaux (GlobalShortcuts)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-recent" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Historique Fichiers (RecentDocs)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-msgbox" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Boîtes de Dialogue natives (MsgBox)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-errorbox" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Alertes d'Erreur (ErrorBox)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-safestorage" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Coffre-fort Mots de Passe (SafeStorage)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-protocol" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Lien URI Personnalisé (ProtocolClient)</span></label>
+                </div>
+              </div>
+
+              <!-- Catégorie 4: Réseau & Avancé -->
+              <div>
+                <h4 style="color: var(--warning); margin-bottom: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;"><i class="fas fa-network-wired"></i> Réseau & Moteur Avancé</h4>
+                <div class="toggles-list compact-toggles">
+                  <label class="toggle-item"><input type="checkbox" id="api-net" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Requêtes HTTP C++ (Net)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-webrequest" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Bloqueur de Requêtes (WebRequest)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-cookies" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Gestionnaire Cookies (Cookies)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-clearcache" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Vider le cache mémoire (ClearCache)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-proxy" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Configurer proxy (SetProxy)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-download" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Téléchargement auto (DownloadURL)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-insertcss" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Forcer Injection CSS (InsertCSS)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-executejs" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Injection Script (ExecuteJS)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-webrtc" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Sécurité Vidéo/IP (WebRTC)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-spellchecker" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Correcteur Orthographique (Spell)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-nativeimage" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Traitement Images (NativeImage)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-crashreporter" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Rapports d'Erreurs (CrashReporter)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-process" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Variables Système (Process/Env)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-appmetrics" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Analyse RAM/CPU (AppMetrics)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-haptic" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Vibrations Mac/Pad (Haptic)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-touchbar" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Apple TouchBar (Mac)</span></label>
+                </div>
+              </div>
+
+              <!-- Catégorie 5: Périphériques externes & Biz -->
+              <div>
+                <h4 style="color: #ff6b6b; margin-bottom: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;"><i class="fas fa-plug"></i> Périphériques & Pro</h4>
+                <div class="toggles-list compact-toggles">
+                  <label class="toggle-item"><input type="checkbox" id="api-usb" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Accès Local Ports USB/Séries</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-bluetooth" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Appairage Bluetooth</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-inapp" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Achats In-App (Mac Store)</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-contenttracing" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Traceur Moteur Chromium</span></label>
+                  <label class="toggle-item"><input type="checkbox" id="api-messagechannel" class="toggle-input" /><span class="toggle-slider"></span><span class="toggle-label">Ports MessageChannel natifs</span></label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Base de Données Locale -->
+          <div class="config-card config-card-wide">
+            <h3 class="config-card-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              Base de Données Locale (NeDB)
+            </h3>
+
+            <div class="form-row">
+              <div class="form-group" style="flex: 1;">
+                <label class="form-label">Gestion de la DB</label>
+                <div class="toggles-list">
+                  <label class="toggle-item">
+                    <input type="checkbox" id="opt-db-enabled" class="toggle-input" />
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Activer le stockage de données local</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group" style="flex: 1;">
+                <label class="form-label">Configuration</label>
+                <div class="form-group">
+                  <input type="text" id="db-name" class="form-input" placeholder="nom_base (ex: stock)" value="data" />
+                  <span class="form-hint">Le fichier sera créé automatiquement (.db)</span>
+                </div>
+              </div>
+            </div>
+            
+            <div id="db-features-info" class="form-hint" style="margin-top: 15px; color: #a1a1ff; opacity: 0.8;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 5px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              Si activé, l'objet <code>window.db</code> sera disponible dans votre code JS pour manipuler vos données.
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <button class="btn btn-ghost" id="btn-prev-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Retour
+          </button>
+          <button class="btn btn-primary btn-lg" id="btn-next-2">
+            Suivant — Prévisualisation
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ── ÉTAPE 3 : PRÉVISUALISATION ─────────────────────── -->
+      <section class="step-panel" id="panel-step-3">
+        <div class="panel-header">
+          <h1 class="panel-title">
+            <span class="panel-step-badge">Étape 3</span>
+            Prévisualisez votre application
+          </h1>
+          <p class="panel-subtitle">Voici un aperçu de comment votre application apparaîtra.</p>
+        </div>
+
+        <div class="preview-container">
+          <div class="preview-window" id="preview-window">
+            <!-- Barre de titre simulée -->
+            <div class="preview-titlebar">
+              <div class="preview-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="preview-window-title" id="preview-window-title">Mon Application</span>
+              <div style="width:52px"></div>
+            </div>
+            <!-- iframe -->
+            <div class="preview-content">
+              <iframe id="preview-webview" src="about:blank" class="preview-webview" style="border:none; width:100%; height:100%;" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+              <div class="preview-placeholder" id="preview-placeholder">
+                <div class="preview-spinner"></div>
+                <p>Chargement de la prévisualisation...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-info">
+          <div class="info-chip" id="preview-chip-file">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg>
+            <span id="preview-entry-name">—</span>
+          </div>
+          <div class="info-chip">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/></svg>
+            <span id="preview-size-info">—</span>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <button class="btn btn-ghost" id="btn-prev-3">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Retour
+          </button>
+          <button class="btn btn-primary btn-lg" id="btn-next-3">
+            Suivant — Générer
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- ── ÉTAPE 4 : GÉNÉRER ──────────────────────────────── -->
+      <section class="step-panel" id="panel-step-4">
+        <div class="panel-header">
+          <h1 class="panel-title">
+            <span class="panel-step-badge">Étape 4</span>
+            Générez votre application
+          </h1>
+          <p class="panel-subtitle">Choisissez où sauvegarder votre projet Electron complet et lancez la génération.</p>
+        </div>
+
+        <!-- Résumé -->
+        <div class="summary-card" id="summary-card">
+          <h3 class="summary-title">Récapitulatif de votre application</h3>
+          <div class="summary-grid">
+            <div class="summary-item">
+              <span class="summary-label">Nom</span>
+              <span class="summary-value" id="sum-name">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Fenêtre</span>
+              <span class="summary-value" id="sum-size">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Fichiers</span>
+              <span class="summary-value" id="sum-files">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Fichier principal</span>
+              <span class="summary-value" id="sum-entry">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Options</span>
+              <span class="summary-value" id="sum-options">—</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Icône</span>
+              <span class="summary-value" id="sum-icon">—</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sélection dossier de sortie -->
+        <div class="output-selector">
+          <label class="form-label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+            Dossier de destination
+          </label>
+          <div class="output-row">
+            <input type="text" id="output-path" class="form-input" placeholder="Choisissez où sauvegarder..." readonly />
+            <button class="btn btn-secondary" id="btn-select-output">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              Choisir
+            </button>
+          </div>
+        </div>
+
+        <!-- Zone de génération -->
+        <div class="generate-zone" id="generate-zone">
+          <button class="btn-generate" id="btn-generate" disabled>
+            <div class="btn-generate-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="btn-generate-text">
+              <span class="btn-generate-main">Générer mon application</span>
+              <span class="btn-generate-sub">Crée un projet Electron complet et prêt à lancer</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-section" id="progress-section" style="display:none">
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+          <p class="progress-text" id="progress-text">Préparation...</p>
+        </div>
+
+        <!-- Succès -->
+        <div class="success-section" id="success-section" style="display:none">
+          <div class="success-icon">✅</div>
+          <h2 class="success-title">Application générée avec succès !</h2>
+          <p class="success-desc">Votre projet Electron est prêt dans le dossier :</p>
+          <div class="success-path" id="success-path">—</div>
+          <div class="success-instructions">
+            <h4>Comment lancer votre application :</h4>
+            <div class="instruction-steps">
+              <div class="instruction-step">
+                <span class="instr-num">1</span>
+                <div class="instr-content">
+                  <strong>Windows :</strong> Double-cliquez sur <code>LANCER.bat</code>
+                </div>
+              </div>
+              <div class="instruction-step">
+                <span class="instr-num">2</span>
+                <div class="instr-content">
+                  <strong>Terminal :</strong> <code>cd [dossier] → npm install → npm start</code>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="success-actions">
+            <button class="btn btn-primary" id="btn-open-folder">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              Ouvrir le dossier
+            </button>
+            <button class="btn btn-generate" id="btn-build-exe" style="padding: 10px 20px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Compiler en .exe
+            </button>
+            <button class="btn btn-secondary" id="btn-new-project">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Nouveau projet
+            </button>
+          </div>
+
+          <!-- Console de build -->
+          <div class="build-console-container" id="build-console-container" style="display:none; margin-top: 24px;">
+            <div class="console-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">
+              <span>Console de compilation</span>
+              <span class="status-pulse" id="build-status-dot" style="width: 8px; height: 8px; border-radius: 50%; background: var(--purple-1);"></span>
+            </div>
+            <pre class="build-console" id="build-console" style="background: #050510; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: var(--font-mono); font-size: 11px; color: #a0a0c0; text-align: left; max-height: 200px; overflow-y: auto; white-space: pre-wrap; word-break: break-all;"></pre>
+          </div>
+        </div>
+
+        <div class="panel-footer" id="step4-footer">
+          <button class="btn btn-ghost" id="btn-prev-4">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Retour
+          </button>
+          <div></div>
+        </div>
+      </section>
+
+      <!-- ── ÉTAPE 5 : HISTORIQUE ────────────────────────────── -->
+      <section class="step-panel" id="panel-step-5">
+        <div class="panel-header">
+          <h1 class="panel-title">
+            <span class="panel-step-badge">Mes Apps</span>
+            Historique des projets
+          </h1>
+          <p class="panel-subtitle">Gérez vos applications générées et accédez rapidement à vos builds.</p>
+        </div>
+
+        <div class="history-view-container">
+          <div class="history-grid" id="history-grid">
+            <!-- Injecté par JS -->
+            <div class="empty-history">
+              <i class="fas fa-folder-open"></i>
+              <p>Aucun projet trouvé dans l'historique.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <button class="btn btn-ghost" id="btn-prev-5">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Retour
+          </button>
+          <button class="btn btn-secondary" id="btn-history-refresh">
+            <i class="fas fa-sync-alt" style="margin-right: 8px;"></i> Actualiser la liste
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Notifications toast -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Overlay drag global -->
+  <div class="drag-overlay" id="drag-overlay">
+    <div class="drag-overlay-content">
+      <div class="drag-overlay-icon">📂</div>
+      <h2>Relâchez pour importer vos fichiers</h2>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
