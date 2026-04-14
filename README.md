@@ -32,9 +32,29 @@ En termes simples : vous lui donnez un dossier contenant vos fichiers web (votre
 
 ---
 
+## Pourquoi LayeForge est-il unique ?
+
+Face aux solutions existantes comme **HTML Executable**, **Nativefier** ou **Web2Exe**, LayeForge se distingue par plusieurs innovations majeures :
+
+### LayeForge vs La Concurrence
+
+| Fonctionnalité | LayeForge | Solutions Classiques |
+| :--- | :--- | :--- |
+| **Configuration** | **Zéro config** : Tout est inclus. | Souvent complexe (nécessite Node.js, Python, ou des scripts). |
+| **Indépendance** | **100% Autonome** : Pas besoin de Node.js sur le PC. | Nécessite souvent l'installation de runtimes externes. |
+| **APIs Natives** | **40+ APIs simplifiées** (Print, DB, Notify). | Limité ou nécessite du code IPC complexe. |
+| **Interface** | **Design moderne (Glassmorphism)** natif. | Design Windows standard ou basique. |
+| **Prix** | **Gratuit et Illimité**. | Souvent payant (ex: HTML Executable) ou avec limites. |
+| **Sécurité** | **Obfuscation intégrée en 1 clic**. | Optionnelle ou complexe à configurer. |
+
+### Ce qui nous dépasse :
+LayeForge n'est pas qu'un simple "wrapper". C'est un **studio de création** complet qui injecte automatiquement des "Super-Pouvoirs" dans vos projets web, tout en restant plus léger et simple que n'importe quelle autre alternative du marché.
+
+---
+
 ## Une Nouvelle Ère d'Indépendance
 
-LayeForge franchit une étape majeure en devenant **totalement autonome**. Contrairement aux solutions traditionnelles (comme Nativefier ou Electron Packager) qui exigent que vous configuriez vous-même votre environnement de développement, LayeForge est prêt à l'emploi dès son téléchargement.
+LayeForge franchit une étape majeure en devenant **totalement autonome**. Contrairement aux solutions traditionnelles qui exigent que vous configuriez vous-même votre environnement de développement, LayeForge est prêt à l'emploi dès son téléchargement.
 
 ### Zéro Dépendance Externe
 L'utilisateur final n'a plus besoin d'installer Node.js, npm ou toute autre dépendance sur son système. LayeForge embarque son propre moteur d'exécution portable, garantissant une compatibilité immédiate sur n'importe quel ordinateur Windows.
@@ -52,15 +72,6 @@ Accédez à plus de 40 APIs natives pour donner à vos web-apps les capacités d
 *   Notifications systèmes et menus contextuels personnalisés.
 *   Accès sécurisé au presse-papiers et informations système.
 *   Gestion du stockage local via une base de données NeDB intégrée.
-
-### Design et Personnalisation Premium
-Maîtrisez l'esthétique de votre application :
-*   Barre de titre moderne avec effets de transparence (Glassmorphism).
-*   Configuration de Splash Screens pour un démarrage professionnel.
-*   Personnalisation complète de l'icône et des dimensions de la fenêtre.
-
-### Sécurité Critique
-Protégez votre propriété intellectuelle grâce à l'obfuscation automatique du code source et au verrouillage des outils de développement (DevTools) pour les versions de production.
 
 ---
 
@@ -133,4 +144,4 @@ Ce projet est distribué sous la Licence MIT. Consultez le fichier `LICENSE` pou
 
 ---
 
-*Développé avec passion par [Papa Abdoulaye Diallo](https://github.com/papaabdoulayediallo2-dev).*
+*Développé par [Papa Abdoulaye Diallo](https://github.com/papaabdoulayediallo2-dev).*
