@@ -11,7 +11,7 @@
 
 ---
 
-### Si LayeForge vous est utile, donnez-lui une étoile sur GitHub ! Cela aide le projet à gagner en visibilité.
+### Si LayeForge vous est utile, donnez-lui une étoile sur GitHub !
 
 ---
 
