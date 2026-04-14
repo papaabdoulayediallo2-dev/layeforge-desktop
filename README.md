@@ -11,11 +11,11 @@
 
 ---
 
-### ⭐ Si LayeForge vous est utile, donnez-lui une étoile sur GitHub ! Cela aide le projet à gagner en visibilité.
+### Si LayeForge vous est utile, donnez-lui une étoile sur GitHub ! Cela aide le projet à gagner en visibilité.
 
 ---
 
-## 📥 Téléchargement Immédiat
+## Téléchargement Immédiat
 
 Pour commencer à utiliser **LayeForge** sans attendre, téléchargez la version stable la plus récente :
 
@@ -30,11 +30,11 @@ LayeForge est un outil de packaging "tout-en-un" (Electron generator) conçu pou
 En termes simples : vous lui donnez un dossier contenant vos fichiers web (votre site ou votre application), et il vous rend un fichier **.exe** que n'importe qui peut installer et lancer sur Windows, comme n'importe quel autre logiciel professionnel.
 
 **Pourquoi l'utiliser ?**
-1.  **🚀 Rapidité** : Créez une application desktop en moins de 2 minutes.
-2.  **🧠 Accessibilité** : Pas besoin de comprendre le fonctionnement complexe d'Electron ou de Node.js.
-3.  **💎 Propreté** : Vos utilisateurs reçoivent un logiciel élégant, rapide et sécurisé.
-4.  **🎁 100% Gratuit & Illimité** : Aucune limitation sur les fonctionnalités, pas d'abonnement, et aucun frais caché.
-5.  **🛠️ 40+ APIs Natives** : Accès simplifié à l'impression, au système de fichiers, aux notifications, et bien plus encore.
+1.  **Rapidité** : Créez une application desktop en moins de 2 minutes.
+2.  **Accessibilité** : Pas besoin de comprendre le fonctionnement complexe d'Electron ou de Node.js.
+3.  **Propreté** : Vos utilisateurs reçoivent un logiciel élégant, rapide et sécurisé.
+4.  **100% Gratuit & Illimité** : Aucune limitation sur les fonctionnalités, pas d'abonnement, et aucun frais caché.
+5.  **40+ APIs Natives** : Accès simplifié à l'impression, au système de fichiers, aux notifications, et bien plus encore.
 
 ---
 
@@ -154,7 +154,7 @@ Ce projet est distribué sous la Licence MIT. Consultez le fichier `LICENSE` pou
 
 ---
 
-## 🚀 Téléchargement
+## Téléchargement
 
 **[Télécharger la dernière version de LayeForge](https://github.com/papaabdoulayediallo2-dev/layeforge-desktop/releases/latest)**
 
