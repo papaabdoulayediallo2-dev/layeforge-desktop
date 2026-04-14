@@ -1,8 +1,6 @@
-# LayeForge
+# LayeForge - Le Générateur d'Applications Desktop Autonome
 
-**Transformez vos projets web en applications desktop professionnelles avec une autonomie totale.**
-
-LayeForge est une solution de packaging avancée conçue pour les développeurs et créateurs web. Elle permet de convertir n'importe quel site ou application HTML/CSS/JS en un exécutable Windows (.exe) parfaitement intégré, sans nécessiter la moindre connaissance en Electron.
+**LayeForge est une solution innovante qui transforme instantanément n'importe quel projet web (HTML, CSS, JS) en un véritable logiciel Windows (.exe) professionnel, sans écrire une seule ligne de code Electron.**
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -11,15 +9,25 @@ LayeForge est une solution de packaging avancée conçue pour les développeurs 
 
 ---
 
+## C'est quoi LayeForge ?
+
+LayeForge est un outil de packaging "tout-en-un" conçu pour combler le fossé entre le web et le bureau. 
+
+En termes simples : vous lui donnez un dossier contenant vos fichiers web (votre site ou votre application), et il vous rend un fichier **.exe** que n'importe qui peut installer et lancer sur Windows, comme n'importe quel autre logiciel professionnel.
+
+**Pourquoi l'utiliser ?**
+1.  **Rapidité** : Créez une application desktop en moins de 2 minutes.
+2.  **Accessibilité** : Pas besoin de comprendre le fonctionnement complexe d'Electron ou de Node.js.
+3.  **Propreté** : Vos utilisateurs reçoivent un logiciel élégant, rapide et sécurisé.
+
+---
+
 ## Une Nouvelle Ère d'Indépendance
 
-LayeForge franchit une étape majeure en devenant totalement autonome. Contrairement aux solutions traditionnelles qui exigent une configuration complexe de l'environnement, LayeForge est prêt à l'emploi dès son téléchargement.
+LayeForge franchit une étape majeure en devenant **totalement autonome**. Contrairement aux solutions traditionnelles (comme Nativefier ou Electron Packager) qui exigent que vous configuriez vous-même votre environnement de développement, LayeForge est prêt à l'emploi dès son téléchargement.
 
 ### Zéro Dépendance Externe
 L'utilisateur final n'a plus besoin d'installer Node.js, npm ou toute autre dépendance sur son système. LayeForge embarque son propre moteur d'exécution portable, garantissant une compatibilité immédiate sur n'importe quel ordinateur Windows.
-
-### Gestion Intelligente du Workflow
-Le moteur de LayeForge gère automatiquement le téléchargement, la configuration et l'isolement des outils nécessaires à la compilation. Tout se passe de manière transparente en arrière-plan.
 
 ---
 
@@ -48,7 +56,7 @@ Protégez votre propriété intellectuelle grâce à l'obfuscation automatique d
 
 ## Guide d'Utilisation Simple
 
-LayeForge a été conçu pour être intuitif. Le processus de création suit un cheminement structuré :
+Le processus de création suit un cheminement structuré :
 
 1.  **Importation des Sources** : Sélectionnez votre dossier source et désignez votre point d'entrée (ex: `index.html`).
 2.  **Configuration de l'Interface** : Définissez le nom, les couleurs et les comportements de votre application.
@@ -67,7 +75,7 @@ Pour commencer à utiliser LayeForge, téléchargez la version stable la plus r�
 
 ## Section Développeur (Contribution)
 
-Si vous souhaitez modifier les sources de LayeForge ou participer à son développement, suivez ces instructions :
+Si vous souhaitez modifier les sources de LayeForge ou participer à son développement :
 
 ### Prérequis Logiciels
 *   Node.js (Version LTS)
@@ -75,16 +83,16 @@ Si vous souhaitez modifier les sources de LayeForge ou participer à son dévelo
 
 ### Configuration de l'Environnement
 ```powershell
-# Installation des dépendances du projet
+# Installation des dépendances
 npm install
 
-# Initialisation de l'environnement portable interne
+# Initialisation de l'environnement portable
 npm run setup-env
 
-# Lancement en mode développement
+# Lancement en mode dev
 npm start
 
-# Compilation de l'exécutable LayeForge
+# Compilation de l'exécutable
 npm run dist
 ```
 
