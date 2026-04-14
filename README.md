@@ -48,7 +48,7 @@ Face aux solutions existantes comme **HTML Executable**, **Nativefier** ou **Web
 | **Prix** | **Gratuit et Illimité**. | Souvent payant (ex: HTML Executable) ou avec limites. |
 | **Sécurité** | **Obfuscation intégrée en 1 clic**. | Optionnelle ou complexe à configurer. |
 
-### Ce qui nous dépasse :
+### Ce qui nous différencie :
 LayeForge n'est pas qu'un simple "wrapper". C'est un **studio de création** complet qui injecte automatiquement des "Super-Pouvoirs" dans vos projets web, tout en restant plus léger et simple que n'importe quelle autre alternative du marché.
 
 ---
