@@ -6,6 +6,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)
 ![Zero Config](https://img.shields.io/badge/Node.js-None%20Required-success.svg)
+![Free](https://img.shields.io/badge/Price-100%25%20Free-brightgreen.svg)
 
 ---
 
@@ -24,9 +25,10 @@ LayeForge est un outil de packaging "tout-en-un" conçu pour combler le fossé e
 En termes simples : vous lui donnez un dossier contenant vos fichiers web (votre site ou votre application), et il vous rend un fichier **.exe** que n'importe qui peut installer et lancer sur Windows, comme n'importe quel autre logiciel professionnel.
 
 **Pourquoi l'utiliser ?**
-1.  **Rapidité** : Créez une application desktop en moins de 2 minutes.
-2.  **Accessibilité** : Pas besoin de comprendre le fonctionnement complexe d'Electron ou de Node.js.
-3.  **Propreté** : Vos utilisateurs reçoivent un logiciel élégant, rapide et sécurisé.
+1.  **🚀 Rapidité** : Créez une application desktop en moins de 2 minutes.
+2.  **🧠 Accessibilité** : Pas besoin de comprendre le fonctionnement complexe d'Electron ou de Node.js.
+3.  **💎 Propreté** : Vos utilisateurs reçoivent un logiciel élégant, rapide et sécurisé.
+4.  **🎁 100% Gratuit & Illimité** : Aucune limitation sur les fonctionnalités, pas d'abonnement, et aucun frais caché.
 
 ---
 
