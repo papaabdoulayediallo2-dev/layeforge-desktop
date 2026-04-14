@@ -35,6 +35,7 @@ En termes simples : vous lui donnez un dossier contenant vos fichiers web (votre
 3.  **Propreté** : Vos utilisateurs reçoivent un logiciel élégant, rapide et sécurisé.
 4.  **100% Gratuit & Illimité** : Aucune limitation sur les fonctionnalités, pas d'abonnement, et aucun frais caché.
 5.  **40+ APIs Natives** : Accès simplifié à l'impression, au système de fichiers, aux notifications, et bien plus encore.
+6.  **Vraie Persistance** : Contrairement au cache web volatil, les données de la base de données sont stockées de façon permanente dans des fichiers physiques sur le disque.
 
 ---
 
@@ -48,6 +49,7 @@ Face aux solutions existantes comme **HTML Executable**, **Nativefier** ou **Web
 | :--- | :--- | :--- |
 | **Configuration** | **Zéro config** : Tout est inclus. | Souvent complexe (nécessite Node.js, Python, ou des scripts). |
 | **Indépendance** | **100% Autonome** : Pas besoin de Node.js sur le PC. | Nécessite souvent l'installation de runtimes externes. |
+| **Persistance** | **Fichiers physiques (.db)** : Données sécurisées sur disque. | Souvent limité au cache navigateur ou localStorage. |
 | **APIs Natives** | **40+ APIs simplifiées** (Print, DB, Notify). | Limité ou nécessite du code IPC complexe. |
 | **Interface** | **Design moderne (Glassmorphism)** natif. | Design Windows standard ou basique. |
 | **Prix** | **Gratuit et Illimité**. | Souvent payant (ex: HTML Executable) ou avec limites. |
