@@ -10,6 +10,14 @@ LayeForge est un générateur d'applications desktop puissant et intuitif. Il pe
 
 ---
 
+##  Téléchargement
+
+Si vous voulez utiliser **LayeForge** immédiatement sans avoir à installer Node.js, vous pouvez télécharger la version déjà prête à l'emploi :
+
+**[Télécharger LayeForge (LATEST)](https://github.com/papaabdoulayediallo2-dev/layeforge-desktop/releases/latest)**
+
+---
+
 ## Points Forts
 
 *   **Simplicité Absolue** ![Fast](https://img.shields.io/badge/-Rapidité-7c3aed?style=flat-square&logo=lightning&logoColor=white)  
