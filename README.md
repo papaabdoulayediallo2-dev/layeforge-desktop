@@ -9,6 +9,14 @@
 
 ---
 
+## 📥 Téléchargement Immédiat
+
+Pour commencer à utiliser **LayeForge** sans attendre, téléchargez la version stable la plus récente :
+
+**[Accéder aux Téléchargements LayeForge](https://github.com/papaabdoulayediallo2-dev/layeforge-desktop/releases/latest)**
+
+---
+
 ## C'est quoi LayeForge ?
 
 LayeForge est un outil de packaging "tout-en-un" conçu pour combler le fossé entre le web et le bureau. 
@@ -65,14 +73,6 @@ Le processus de création suit un cheminement structuré :
 
 ---
 
-## Téléchargement Immédiat
-
-Pour commencer à utiliser LayeForge, téléchargez la version stable la plus récente :
-
-**[Accéder aux Téléchargements LayeForge](https://github.com/papaabdoulayediallo2-dev/layeforge-desktop/releases/latest)**
-
----
-
 ## Section Développeur (Contribution)
 
 Si vous souhaitez modifier les sources de LayeForge ou participer à son développement :
@@ -122,6 +122,12 @@ npm run dist
 ## Licence
 
 Ce projet est distribué sous la Licence MIT. Consultez le fichier `LICENSE` pour plus de détails.
+
+---
+
+## 🚀 Téléchargement
+
+**[Télécharger la dernière version de LayeForge](https://github.com/papaabdoulayediallo2-dev/layeforge-desktop/releases/latest)**
 
 ---
 
