@@ -1,6 +1,6 @@
 # LayeForge - Le Générateur d'Applications Desktop Autonome
 
-**LayeForge est une solution innovante qui transforme instantanément n'importe quel projet web (HTML, CSS, JS) en un véritable logiciel Windows (.exe) professionnel, sans écrire une seule ligne de code Electron.**
+**LayeForge est une solution innovante qui transforme instantanément n'importe quel projet web (HTML, CSS, JS) en un véritable logiciel Windows (.exe) professionnel, avec un accès direct à plus de 40 APIs natives et sans écrire une seule ligne de code Electron.**
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -29,6 +29,7 @@ En termes simples : vous lui donnez un dossier contenant vos fichiers web (votre
 2.  **🧠 Accessibilité** : Pas besoin de comprendre le fonctionnement complexe d'Electron ou de Node.js.
 3.  **💎 Propreté** : Vos utilisateurs reçoivent un logiciel élégant, rapide et sécurisé.
 4.  **🎁 100% Gratuit & Illimité** : Aucune limitation sur les fonctionnalités, pas d'abonnement, et aucun frais caché.
+5.  **🛠️ 40+ APIs Natives** : Accès simplifié à l'impression, au système de fichiers, aux notifications, et bien plus encore.
 
 ---
 
@@ -61,28 +62,41 @@ L'utilisateur final n'a plus besoin d'installer Node.js, npm ou toute autre dép
 
 ---
 
-## Caractéristiques Principales
+## Guide d'Utilisation Simple
 
-### Accessibilité Totale
-Convertissez vos fichiers web par simple glisser-déposer. Le processus est simplifié en 4 étapes logiques pour une productivité maximale.
+LayeForge a été conçu pour être intuitif. Le processus de création suit un cheminement structuré :
 
-### Intégration Native Étendue
-Accédez à plus de 40 APIs natives pour donner à vos web-apps les capacités d'un logiciel de bureau :
-*   Gestion avancée de l'impression et du système de fichiers.
-*   Notifications systèmes et menus contextuels personnalisés.
-*   Accès sécurisé au presse-papiers et informations système.
-*   Gestion du stockage local via une base de données NeDB intégrée.
+### Étape 1 : Préparation des Fichiers
+Importez votre projet web. LayeForge supporte les fichiers HTML, CSS, JS, ainsi que tous vos assets (images, polices, JSON). Il vous suffit d'indiquer quel fichier est le point d'entrée principal (généralement `index.html`).
+
+### Étape 2 : Configuration de l'Apparence
+*   **Barre de titre** : Choisissez entre une barre Windows classique ou notre barre personnalisée moderne avec effet Glassmorphism.
+*   **Splash Screen** : Activez un écran de chargement personnalisé pour un effet premium au lancement.
+*   **Icônes** : Personnalisez l'icône de votre application et de l'installateur en un clic.
+
+### Étape 3 : Activation des "Super-Pouvoirs" (APIs)
+Cochez simplement les APIs natives dont votre application a besoin. LayeForge injectera automatiquement les permissions pour :
+*   L'impression et le système de fichiers.
+*   Le presse-papiers et les notifications système.
+*   La base de données locale (NeDB).
+*   Et plus de 40 autres fonctionnalités natives.
+
+### Étape 4 : Génération et Export
+Lancez la compilation. LayeForge s'occupe de tout le processus technique et vous livre votre application sous deux formats :
+*   **Portable** : Un seul fichier `.exe` qui s'exécute sans installation.
+*   **Installateur** : Un setup professionnel pour une installation complète sur Windows.
 
 ---
 
-## Guide d'Utilisation Simple
+## Capacités de l'API Native
 
-Le processus de création suit un cheminement structuré :
-
-1.  **Importation des Sources** : Sélectionnez votre dossier source et désignez votre point d'entrée (ex: `index.html`).
-2.  **Configuration de l'Interface** : Définissez le nom, les couleurs et les comportements de votre application.
-3.  **Activation des Capacités** : Choisissez les APIs natives nécessaires à votre projet.
-4.  **Génération et Export** : Lancez la compilation pour obtenir un exécutable portable ou un installateur complet.
+| Catégorie | Services Inclus |
+| :--- | :--- |
+| **Système** | Gestion CPU, Infos OS, Contrôle de l'alimentation, Zoom |
+| **Interface** | Tray Menu, Menus contextuels, Barre de progression, Notifications |
+| **Données** | Base de données locale (NeDB), Coffre-fort de mots de passe |
+| **Fichiers** | Dialogues natifs, Lecture/Écriture directe, Impression |
+| **Réseau** | HTTP natif, Gestion des cookies, Proxy, Téléchargements auto |
 
 ---
 
@@ -108,17 +122,6 @@ npm start
 # Compilation de l'exécutable
 npm run dist
 ```
-
----
-
-## Capacités de l'API Native
-
-| Catégorie | Services Inclus |
-| :--- | :--- |
-| **Système** | Gestion CPU, Infos OS, Contrôle de l'alimentation, Zoom |
-| **Interface** | Tray Menu, Menus contextuels, Barre de progression, Notifications |
-| **Données** | Base de données locale (NeDB), Coffre-fort de mots de passe |
-| **Réseau** | HTTP natif, Gestion des cookies, Proxy, Téléchargements auto |
 
 ---
 
