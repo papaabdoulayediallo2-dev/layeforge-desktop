@@ -167,7 +167,7 @@ Ce projet est distribué sous la Licence MIT. Consultez le fichier `LICENSE` pou
 LayeForge est un projet développé par **Papa Abdoulaye Diallo**.
 
 *   **Email** : [papaabdoulayediallo2@gmail.com](mailto:papaabdoulayediallo2@gmail.com)
-*   **Formation** : Élève en Génie Logiciel à l'Institut Supérieur de l'Informatique (**ISI**) de Dakar.
+*   **Formation** : Etudiant en Génie Logiciel à l'Institut Supérieur de l'Informatique (**ISI**) de Dakar.
 
 ---
 
