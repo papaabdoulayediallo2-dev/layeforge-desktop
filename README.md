@@ -83,7 +83,7 @@ Importez votre projet web. LayeForge supporte les fichiers HTML, CSS, JS, ainsi 
 Cochez simplement les APIs natives dont votre application a besoin. LayeForge injectera automatiquement les permissions pour :
 *   L'impression et le système de fichiers.
 *   Le presse-papiers et les notifications système.
-*   La base de données locale (NeDB).
+*   **Base de données locale (NeDB)** : Stockage persistant dans des fichiers `.db` (pas de cache volatil).
 *   Et plus de 40 autres fonctionnalités natives.
 
 ### Étape 4 : Génération et Export
@@ -107,7 +107,7 @@ Lancez la compilation. LayeForge s'occupe de tout le processus technique et vous
 | :--- | :--- |
 | **Système** | Gestion CPU, Infos OS, Contrôle de l'alimentation, Zoom |
 | **Interface** | Tray Menu, Menus contextuels, Barre de progression, Notifications |
-| **Données** | Base de données locale (NeDB), Coffre-fort de mots de passe |
+| **Données** | Base de données locale (NeDB persistant en fichier), Coffre-fort de mots de passe |
 | **Fichiers** | Dialogues natifs, Lecture/Écriture directe, Impression |
 | **Réseau** | HTTP natif, Gestion des cookies, Proxy, Téléchargements auto |
 
@@ -162,7 +162,7 @@ Ce projet est distribué sous la Licence MIT. Consultez le fichier `LICENSE` pou
 
 ## Contact & Auteur
 
-LayeForge est un projet passionné développé par **Papa Abdoulaye Diallo**.
+LayeForge est un projet développé par **Papa Abdoulaye Diallo**.
 
 *   **Email** : [papaabdoulayediallo2@gmail.com](mailto:papaabdoulayediallo2@gmail.com)
 *   **Formation** : Élève en Génie Logiciel à l'Institut Supérieur de l'Informatique (**ISI**) de Dakar.
