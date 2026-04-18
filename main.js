@@ -66,20 +66,32 @@ function getNodePaths() {
   const isProd = app.isPackaged;
   const basePath = isProd ? process.resourcesPath : __dirname;
   
-  const localNode = path.join(basePath, 'bin', 'node', 'node.exe');
-  const localNpm = path.join(basePath, 'bin', 'node', 'node_modules', 'npm', 'bin', 'npm-cli.js');
+  let localNode = path.join(basePath, 'bin', 'node', 'node.exe');
+  let localNpm = path.join(basePath, 'bin', 'node', 'node_modules', 'npm', 'bin', 'npm-cli.js');
+
+  // Fallback : si on ne trouve pas dans resources, on cherche dans le dossier d'exécution (utile pour certains modes portables)
+  if (!fs.existsSync(localNode)) {
+    const fallbackNode = path.join(process.cwd(), 'bin', 'node', 'node.exe');
+    if (fs.existsSync(fallbackNode)) {
+      localNode = fallbackNode;
+      localNpm = path.join(process.cwd(), 'bin', 'node', 'node_modules', 'npm', 'bin', 'npm-cli.js');
+    }
+  }
 
   if (fs.existsSync(localNode) && fs.existsSync(localNpm)) {
     return {
       node: localNode,
-      npmArgs: [localNpm], // On lancera : node [npm-cli.js] install
-      isPortable: true
+      npmArgs: [localNpm],
+      isPortable: true,
+      basePath: basePath
     };
   }
   return {
     node: 'node',
-    npmArgs: [], // On utilisera simplement 'npm.cmd' ou 'npm'
-    isPortable: false
+    npmArgs: [],
+    isPortable: false,
+    triedPath: localNode,
+    basePath: basePath
   };
 }
 
@@ -371,6 +383,10 @@ ipcMain.handle('build-project', async (event, projectPath) => {
     const baseArgs = paths.npmArgs; // [] ou [npm-cli.js]
 
     mainWindow.webContents.send('build-log', `Initialisation... (${paths.isPortable ? 'Mode Portable' : 'Mode Système'})`);
+    if (!paths.isPortable) {
+      mainWindow.webContents.send('build-log', `Info: Node portable non trouvé dans : ${paths.triedPath}`);
+      mainWindow.webContents.send('build-log', 'Utilisation du Node.js système...');
+    }
     mainWindow.webContents.send('build-log', 'Lancement de npm install (cela peut prendre du temps)...');
 
     // Configuration de l'environnement pour Node portable
@@ -411,7 +427,11 @@ ipcMain.handle('build-project', async (event, projectPath) => {
     });
 
     install.stderr.on('data', (data) => {
-      mainWindow.webContents.send('build-log', data.toString());
+      const msg = data.toString();
+      if (msg.includes("Cannot create symbolic link")) {
+        mainWindow.webContents.send('build-log', '💡 CONSEIL : Cette erreur arrive sur Windows sans droits Administrateur. Pour corriger : activez le "Mode Développeur" dans les paramètres Windows ou lancez LayeForge en tant qu\'Administrateur.');
+      }
+      mainWindow.webContents.send('build-log', msg);
     });
 
     install.on('close', (code) => {
@@ -437,7 +457,11 @@ ipcMain.handle('build-project', async (event, projectPath) => {
       });
 
       build.stderr.on('data', (data) => {
-        mainWindow.webContents.send('build-log', data.toString());
+        const msg = data.toString();
+        if (msg.includes("Cannot create symbolic link")) {
+          mainWindow.webContents.send('build-log', '💡 CONSEIL : Cette erreur arrive sur Windows sans droits Administrateur. Pour corriger : activez le "Mode Développeur" dans les paramètres Windows ou lancez LayeForge en tant qu\'Administrateur.');
+        }
+        mainWindow.webContents.send('build-log', msg);
       });
 
       build.on('close', (code) => {
@@ -856,7 +880,8 @@ function generatePackageJson({ appName, appDescription, safeName, exportFormat, 
       productName: appName,
       win: {
         target: exportFormat === 'nsis' ? "nsis" : "portable",
-        icon: iconExt ? `icon${iconExt}` : undefined
+        icon: iconExt ? `icon${iconExt}` : undefined,
+        sign: null // Désactiver le signing par défaut pour éviter les erreurs de cache sur Windows
       }
     }
   };

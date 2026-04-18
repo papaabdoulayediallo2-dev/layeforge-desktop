@@ -20,8 +20,16 @@
       "main.js",
       "preload.js",
       "src/**/*",
-      "bin/**/*",
       "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "bin",
+        "to": "bin",
+        "filter": [
+          "**/*"
+        ]
+      }
     ],
     "win": {
       "target": [
